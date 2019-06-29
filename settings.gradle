@@ -1,0 +1,12 @@
+pluginManagement {
+	repositories {
+		gradlePluginPortal()
+	}
+}
+rootProject.name = 'pengine'
+include 'pengine-api'
+include 'pengine-bean'
+include 'pengine-core'
+include 'pengine-service'
+include 'pengine-util'
+include 'pengine-incubation'

@@ -1,0 +1,32 @@
+
+subprojects {
+
+
+	apply plugin: 'java'
+	apply plugin: 'idea'
+	group = 'org.bizboost'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '1.8'
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+
+
+	}
+	
+	repositories {
+		maven {
+			url 'http://maven.aliyun.com/nexus/content/groups/public/'
+		}
+		mavenCentral()
+	}
+	dependencies {
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+		compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
+		compile group: 'com.alibaba', name: 'fastjson', version: '1.2.58'
+		compile group: 'commons-io', name: 'commons-io', version: '2.6'
+	}
+}

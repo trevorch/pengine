@@ -1,0 +1,1 @@
+function gift(){return '1D45497B1D9749A6AD9E36D2E763490E';}

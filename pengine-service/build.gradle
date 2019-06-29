@@ -1,0 +1,11 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.6.RELEASE'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+	compile project(':pengine-core')
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-test'
+}

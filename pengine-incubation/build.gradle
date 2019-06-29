@@ -1,0 +1,12 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.6.RELEASE'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+	compile project(':pengine-bean')
+	compile project(':pengine-util')
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}

@@ -1,0 +1,15 @@
+spring:
+  messages:
+    basename: i18n/messages
+
+promotion:
+  file-dir: D:\Workspace\Java\pengine\data\promotion
+  file-prefix: promotion
+  file-suffix: .json
+
+response:
+  prettify: false
+
+logging:
+  level:
+    org.springframework: debug

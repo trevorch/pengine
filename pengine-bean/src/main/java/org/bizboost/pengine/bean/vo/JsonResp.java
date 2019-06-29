@@ -1,0 +1,33 @@
+package org.bizboost.pengine.bean.vo;
+
+import lombok.Data;
+
+@Data
+public class JsonResp<T> {
+    private boolean ok;
+    private String code;
+    private T msg;
+    public JsonResp(){}
+    public JsonResp(boolean ok, String code, T msg) {
+        this.ok = ok;
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public final static JsonResp build(){
+        return new JsonResp(true,"success","{}");
+    }
+
+    public JsonResp setOk(boolean ok) {
+        this.ok=ok;
+        return this;
+    }
+    public JsonResp setCode(String code) {
+        this.code=code;
+        return this;
+    }
+    public JsonResp setMsg(T msg) {
+        this.msg=msg;
+        return this;
+    }
+}

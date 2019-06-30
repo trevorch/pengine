@@ -6,7 +6,6 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencies {
 	compile project(':pengine-bean')
-	compile project(':pengine-util')
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

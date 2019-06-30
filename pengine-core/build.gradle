@@ -5,5 +5,4 @@ plugins {
 apply plugin: 'io.spring.dependency-management'
 dependencies {
     compile project(':pengine-bean')
-    compile project(':pengine-util')
 }

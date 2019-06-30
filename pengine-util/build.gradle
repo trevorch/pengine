@@ -1,9 +1,0 @@
-plugins {
-	id 'org.springframework.boot' version '2.1.6.RELEASE'
-}
-
-apply plugin: 'io.spring.dependency-management'
-
-dependencies {
-	compile project(':pengine-bean')
-}

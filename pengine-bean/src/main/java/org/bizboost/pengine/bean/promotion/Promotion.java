@@ -3,10 +3,11 @@ package org.bizboost.pengine.bean.promotion;
 import lombok.Data;
 import org.bizboost.pengine.bean.Clone;
 import org.bizboost.pengine.bean.exception.PromotionInvalidException;
+import org.bizboost.pengine.bean.trade.Order;
 
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 @Data
 public class Promotion extends Clone<Promotion> implements Serializable {
@@ -25,5 +26,23 @@ public class Promotion extends Clone<Promotion> implements Serializable {
         long currentTime = System.currentTimeMillis();
         if (currentTime<start.getTime()) throw new PromotionInvalidException("活动尚未开始");
         if (currentTime>close.getTime()) throw new PromotionInvalidException("活动已经结束");
+    }
+
+    public List<PromItem> validate(Order order) throws PromotionInvalidException {
+        Thread T = Thread.currentThread();
+        validate();
+        Set<String> orderItemIdSet = new HashSet<>();
+        order.getItems().forEach(item -> orderItemIdSet.add(item.getId()));
+        List<PromItem> lackPromItems = new ArrayList<>();
+        map.forEach((index,item)->{
+            if(!orderItemIdSet.contains(item.getId())) {
+                try {
+                    lackPromItems.add(item.deepClone());
+                } catch (IOException|ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return lackPromItems;
     }
 }

@@ -4,6 +4,8 @@ import org.bizboost.pengine.bean.promotion.Promotion;
 import org.bizboost.pengine.bean.vo.JsonResp;
 import org.springframework.web.bind.annotation.*;
 
+import static org.bizboost.pengine.bean.vo.JsonResp.build;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/promotion")
@@ -19,34 +21,28 @@ public class CreateController extends Base {
      *
      *  @apiParamExample {json} 请求参数样例:
      *  {
-     *   "id": "PID-005",
-     *   "name": "满100打八折",
-     *   "desc": "总价满100打八折",
-     *   "sequence": 3,
+     *   "id": "DIS002",
+     *   "name": "满1000打6折",
+     *   "desc": "鲁花花生油满2瓶打5折且总价满1000打6折",
+     *   "sequence": 2,
      *   "start": "2019-06-28 00:00:00",
      *   "close": "2019-10-26 00:00:00",
-     *   "rule": "(c1*p1+c2*p2+c3*p3) >= 100",
-        "map": {
-          "1":{
-            "id": "1D45497B1D9749A6AD9E36D2E763490E",
-            "name": "康师傅",
-            "count": 11,
-            "price": 5
-          },
-          "2":{
-            "id": "9F225BE8EB81477CB2373EA8281A20C9",
-            "name": "黑人牙膏",
-            "count": 100,
-            "price": 2
-          },
-          "3":{
-            "id": "85B2A6E48E2A419CBF23AC41AE467F97",
-            "name": "统一奶茶",
-            "count": 10,
-            "price": 5
-          }
-        },
-     *   "action": "totalPrice*0.8"
+     *   "rule": "(c1>=2)&&(c1*p1+c2*p2+c3*p3) >= 1000",
+     *   "action": "discount ((c1*p1*0.5)+c2*p2+c3*p3)*0.6",
+     *   "map": {
+     *     "1":{
+     *       "id": "8139349",
+     *       "name": "伊利金典有机纯牛奶"
+     *     },
+     *     "2":{
+     *       "id": "1599047",
+     *       "name": "鲁花花生油"
+     *     },
+     *     "3":{
+     *       "id": "2828950",
+     *       "name": "维达抽纸"
+     *     }
+     *   }
      * }
      *
      * @apiSuccessExample {json} 成功响应:
@@ -60,8 +56,14 @@ public class CreateController extends Base {
     @PostMapping("create")
     @ResponseBody
     public JsonResp create(@RequestBody Promotion promotion){
-        promotionService.create(promotion);
-        return JsonResp.build().setMsg("添加成功！");
+        JsonResp resp = build(true);
+        try {
+            promotionService.create(promotion);
+        } catch (Exception e) {
+            resp = build(false);
+            resp.setMsg(e.getMessage());
+        }
+        return resp;
     }
 
 }

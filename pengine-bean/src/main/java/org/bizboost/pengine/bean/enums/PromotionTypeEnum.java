@@ -1,6 +1,6 @@
 package org.bizboost.pengine.bean.enums;
 
-public enum PromClassEnum {
+public enum PromotionTypeEnum {
     reduce,
     discount,
     giving,

@@ -1,13 +1,15 @@
 package org.bizboost.pengine.controller.promotion;
 
 import org.bizboost.pengine.bean.exception.IllegalActionFormat;
+import org.bizboost.pengine.bean.exception.IllegalRuleFormat;
 import org.bizboost.pengine.bean.exception.PromotionInvalidException;
-import org.bizboost.pengine.bean.promotion.ValidationResult;
+import org.bizboost.pengine.bean.promotion.ValidateResult;
 import org.bizboost.pengine.bean.vo.JsonResp;
 import org.bizboost.pengine.bean.vo.OrderValidationVo;
 import org.springframework.web.bind.annotation.*;
 
-import javax.script.ScriptException;
+import static org.bizboost.pengine.bean.vo.JsonResp.build;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/promotion")
@@ -24,29 +26,29 @@ public class ValidateController extends Base {
      * @apiParamExample {json} 请求参数样例
      *  {
      * 	"order":  {
-     *     "no":"76748839",
+     *     "no":"98238179849",
      *     "items":[
      *       {
-     *         "id": "1D45497B1D9749A6AD9E36D2E763490E",
-     *         "name": "康师傅",
-     *         "count": 1,
-     *         "price": 5
+     *         "id": "8139349",
+     *         "name": "伊利金典有机纯牛奶",
+     *         "count": 100,
+     *         "price": 71.90
      *       },
      *       {
-     *         "id": "9F225BE8EB81477CB2373EA8281A20C9",
-     *         "name": "黑人牙膏",
+     *         "id": "1599047",
+     *         "name": "鲁花花生油",
      *         "count": 1,
-     *         "price": 2
+     *         "price": 165.90
      *       },
      *       {
-     *         "id": "85B2A6E48E2A419CBF23AC41AE467F97",
-     *         "name": "统一奶茶",
+     *         "id": "2828950",
+     *         "name": "维达抽纸",
      *         "count": 10,
-     *         "price": 5
+     *         "price": 61.90
      *       }
      *     ]
      *   },
-     *   "promotionId":"PID-001"
+     *   "promotionId":"DIS002"
      * }
      *
      * @apiSuccessExample {json} 成功响应:
@@ -110,9 +112,16 @@ public class ValidateController extends Base {
      */
     @PostMapping("validate")
     @ResponseBody
-    public Object validate(@RequestBody OrderValidationVo ovv) throws ScriptException, PromotionInvalidException, IllegalActionFormat {
-        ValidationResult results = promotionService.validate(ovv.getOrder(),promotionService.getByPromotionId(ovv.getPromotionId()));
-        return JsonResp.build().setMsg(results);
+    public JsonResp validate(@RequestBody OrderValidationVo ovv) {
+        JsonResp resp = build(true);
+        try {
+            ValidateResult results = promotionService.validate(ovv.getOrder(),promotionService.getByPromotionId(ovv.getPromotionId()));
+            resp.setMsg(results);
+        } catch (PromotionInvalidException| IllegalRuleFormat |IllegalActionFormat e) {
+            resp = build(false);
+            resp.setMsg(e.getMessage());
+        }
+        return resp;
     }
 
 }

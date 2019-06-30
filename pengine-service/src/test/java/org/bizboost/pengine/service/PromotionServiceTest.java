@@ -2,9 +2,10 @@ package org.bizboost.pengine.service;
 
 import com.alibaba.fastjson.JSON;
 import org.bizboost.pengine.bean.exception.IllegalActionFormat;
+import org.bizboost.pengine.bean.exception.IllegalRuleFormat;
 import org.bizboost.pengine.bean.exception.PromotionInvalidException;
 import org.bizboost.pengine.bean.promotion.Promotion;
-import org.bizboost.pengine.bean.promotion.ValidationResult;
+import org.bizboost.pengine.bean.promotion.ValidateResult;
 import org.bizboost.pengine.bean.promotion.VirtualProduct;
 import org.bizboost.pengine.bean.trade.Item;
 import org.bizboost.pengine.bean.trade.Order;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.script.ScriptException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,38 +40,46 @@ public class PromotionServiceTest {
     }
 
     @Test
-    public void singleValidate() throws ScriptException, PromotionInvalidException, IllegalActionFormat {
+    public void singleValidate() throws PromotionInvalidException, IllegalActionFormat, IllegalRuleFormat {
         Order order = orders.get(0);
+        Promotion promotion;
+        ValidateResult result;
 
-        Promotion promotion1 = promotionCacheService.getByPromotionId("RED001");
-        ValidationResult result1 = promotionService.validate(order,promotion1);
-        log.info("{}",JSON.toJSONString(result1,true));
-        Assert.assertTrue((result1.isOk()&&result1.getAttachment()==null)
-                ||(!result1.isOk()&&result1.getAttachment()==null));
+        promotion = promotionCacheService.getByPromotionId("RED001");
+        result = promotionService.validate(order,promotion);
+        log.info("{}",JSON.toJSONString(result,true));
+        Assert.assertTrue((result.isOk()&&result.getGifts().isEmpty())
+                ||(!result.isOk()&&result.getGifts().isEmpty()));
 
-        Promotion promotion2 = promotionCacheService.getByPromotionId("DIS001");
-        ValidationResult result2 = promotionService.validate(order,promotion2);
-        log.info("{}",JSON.toJSONString(result2,true));
-        Assert.assertTrue((result2.isOk()&&result2.getAttachment()==null)
-                ||(!result2.isOk()&&result2.getAttachment()==null));
+        promotion = promotionCacheService.getByPromotionId("DIS001");
+        result = promotionService.validate(order,promotion);
+        log.info("{}",JSON.toJSONString(result,true));
+        Assert.assertTrue((result.isOk()&&result.getGifts().isEmpty())
+                ||(!result.isOk()&&result.getGifts().isEmpty()));
 
-        Promotion promotion3 = promotionCacheService.getByPromotionId("DIS002");
-        ValidationResult result3 = promotionService.validate(order,promotion3);
-        log.info("{}",JSON.toJSONString(result3,true));
-        Assert.assertTrue((result3.isOk()&&result3.getAttachment()==null)
-                ||(!result3.isOk()&&result3.getAttachment()==null));
+        promotion = promotionCacheService.getByPromotionId("DIS002");
+        result = promotionService.validate(order,promotion);
+        log.info("{}",JSON.toJSONString(result,true));
+        Assert.assertTrue((result.isOk()&&result.getGifts().isEmpty())
+                ||(!result.isOk()&&result.getGifts().isEmpty()));
 
-        Promotion promotion4 = promotionCacheService.getByPromotionId("COU001");
-        ValidationResult result4 = promotionService.validate(order,promotion4);
-        log.info("{}",JSON.toJSONString(result4,true));
-        Assert.assertTrue((result4.isOk()&&result4.getAttachment()!=null)
-                ||(!result4.isOk()&&result4.getAttachment()==null));
+        promotion = promotionCacheService.getByPromotionId("COU001");
+        result = promotionService.validate(order,promotion);
+        log.info("{}",JSON.toJSONString(result,true));
+        Assert.assertTrue((result.isOk()&&!result.getGifts().isEmpty())
+                ||(!result.isOk()&&result.getGifts().isEmpty()));
 
-        Promotion promotion5 = promotionCacheService.getByPromotionId("GIV001");
-        ValidationResult result5 = promotionService.validate(order,promotion5);
-        log.info("{}",JSON.toJSONString(result5,true));
-        Assert.assertTrue((result5.isOk()&&result5.getAttachment()!=null)
-                ||(!result5.isOk()&&result5.getAttachment()==null));
+        promotion = promotionCacheService.getByPromotionId("GIV001");
+        result = promotionService.validate(order,promotion);
+        log.info("{}",JSON.toJSONString(result,true));
+        Assert.assertTrue((result.isOk()&&!result.getGifts().isEmpty())
+                ||(!result.isOk()&&result.getGifts().isEmpty()));
+
+        promotion = promotionCacheService.getByPromotionId("GIV002");
+        result = promotionService.validate(order,promotion);
+        log.info("{}",JSON.toJSONString(result,true));
+        Assert.assertTrue((result.isOk()&&!result.getGifts().isEmpty())
+                ||(!result.isOk()&&result.getGifts().isEmpty()));
     }
 
     @Test
@@ -83,9 +91,9 @@ public class PromotionServiceTest {
 
         Order order = orders.get(0);
 
-        ValidationResult result = promotionService.bestResult(order,promotions);
+        ValidateResult result = promotionService.bestResult(order,promotions);
         log.info("最优惠：{}",result.getMsg());
-        Assert.assertTrue(order.getTotalPrice().compareTo(result.getResultPrice())>0);
+        Assert.assertTrue(order.getTotalPrice().compareTo(result.getFinalPrice())>0);
     }
 
     @Test

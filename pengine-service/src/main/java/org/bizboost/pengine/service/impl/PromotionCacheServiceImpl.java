@@ -42,15 +42,13 @@ public class PromotionCacheServiceImpl implements PromotionCacheService {
     @Override
     @PostConstruct
     public void reload() {
-        String mn = Thread.currentThread().getStackTrace()[1].getMethodName();
+        Thread T = Thread.currentThread();
 
         List<Promotion> promotions = new ArrayList<>();
 
         // 从文件中加载促销信息
         File promotionDir = new File(promotionFileDir);
         if(promotionDir.exists()){
-            // throw new PromotionNotFoundException(i18nService.get("promotion.define-dir.not-found"));
-
             File [] files = promotionDir.listFiles((dir, name) -> {
                 if(name.startsWith(promotionFilePrefix)&&name.endsWith(promotionFileSuffix)) return true;
                 return false;
@@ -64,12 +62,10 @@ public class PromotionCacheServiceImpl implements PromotionCacheService {
                         promotion.validate();
                         promotions.add(promotion);
                     } catch (PromotionInvalidException e) {
-                        int ln = Thread.currentThread().getStackTrace()[1].getLineNumber()-3;
-                        log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", mn,ln,e.getMessage());
+                        log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber()-3,e.getMessage());
                     }
                 } catch (IOException e) {
-                    int ln = Thread.currentThread().getStackTrace()[1].getLineNumber()-10;
-                    log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", mn,ln,e.getMessage());
+                    log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber()-9,e.getMessage());
                     e.printStackTrace();
                 }
             });
@@ -112,17 +108,14 @@ public class PromotionCacheServiceImpl implements PromotionCacheService {
 
     @Override
     public Promotion create(Promotion promotion) {
-        String mn = Thread.currentThread().getStackTrace()[1].getMethodName();
+        Thread T = Thread.currentThread();
         try {
             Promotion clone = promotion.deepClone();
             PROMOTIONID_PROMOTION_MAP.put(clone.getId(),clone);
-
             rebuildProductPromotionMap();
-
             // TODO: 持久化
         } catch (Exception e) {
-            int ln = Thread.currentThread().getStackTrace()[1].getLineNumber()-11;
-            log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", mn,ln,e.getMessage());
+            log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber()-5,e.getMessage());
             e.printStackTrace();
         }
         return promotion;
@@ -130,7 +123,7 @@ public class PromotionCacheServiceImpl implements PromotionCacheService {
 
     @Override
     public List<Promotion> list() {
-        String mn = Thread.currentThread().getStackTrace()[1].getMethodName();
+        Thread T = Thread.currentThread();
 
         List<Promotion> promotions = new ArrayList<>();
 
@@ -138,8 +131,7 @@ public class PromotionCacheServiceImpl implements PromotionCacheService {
             try {
                 promotions.add(promotion.deepClone());
             } catch (Exception e) {
-                int ln = Thread.currentThread().getStackTrace()[1].getLineNumber()-2;
-                log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", mn,ln,e.getMessage());
+                log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber()-2,e.getMessage());
                 e.printStackTrace();
             }
         });
@@ -160,9 +152,7 @@ public class PromotionCacheServiceImpl implements PromotionCacheService {
      */
     @Scheduled(cron="0/5 * * * * ? ")
     public void validate(){
-
-        String mn = Thread.currentThread().getStackTrace()[1].getMethodName();
-
+        Thread T = Thread.currentThread();
         PROMOTIONID_PROMOTION_MAP.forEach((promId,prom)->{
             try {
                 prom.validate();

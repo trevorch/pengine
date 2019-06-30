@@ -6,10 +6,12 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.File;
 import java.util.Locale;
 
 @RunWith(SpringRunner.class)
@@ -19,6 +21,8 @@ public class I18nServiceTest {
 
     @Autowired
     private I18nService i18nService;
+    @Value("${promotion.file-dir}")
+    private String promotionFileDir;
 
     @Test
     public void test() {
@@ -33,5 +37,10 @@ public class I18nServiceTest {
         LocaleContextHolder.setLocale(Locale.CHINESE);
         msg = i18nService.get("order.promotion.valid");
         Assert.assertTrue(msg.contains("订单"));
+
+        String path = I18nServiceTest.class.getClassLoader().getResource("PromotionCase").getPath();
+        File file = new File(path);
+        File [] files = file.listFiles();
+        log.info("{}",path);
     }
 }

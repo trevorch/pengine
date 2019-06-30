@@ -1,9 +1,12 @@
 package org.bizboost.pengine.controller.promotion;
 
-import org.bizboost.pengine.bean.promotion.ValidationResult;
+import org.bizboost.pengine.bean.promotion.ValidateResult;
 import org.bizboost.pengine.bean.trade.Order;
 import org.bizboost.pengine.bean.vo.JsonResp;
 import org.springframework.web.bind.annotation.*;
+
+import static org.bizboost.pengine.bean.vo.JsonResp.build;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/promotion")
@@ -18,26 +21,26 @@ public class OrderController extends Base{
      * @apiParam {string} RequestBody
      *
      * @apiParamExample {json} 请求参数样例
-     *    {
-     *     "no":"76748839",
+     *  {
+     *     "no":"98238179849",
      *     "items":[
      *       {
-     *         "id": "1D45497B1D9749A6AD9E36D2E763490E",
-     *         "name": "康师傅",
-     *         "count": 11,
-     *         "price": 5
-     *       },
-     *       {
-     *         "id": "9F225BE8EB81477CB2373EA8281A20C9",
-     *         "name": "黑人牙膏",
+     *         "id": "8139349",
+     *         "name": "伊利金典有机纯牛奶",
      *         "count": 100,
-     *         "price": 2
+     *         "price": 71.90
      *       },
      *       {
-     *         "id": "85B2A6E48E2A419CBF23AC41AE467F97",
-     *         "name": "统一奶茶",
+     *         "id": "1599047",
+     *         "name": "鲁花花生油",
+     *         "count": 1,
+     *         "price": 165.90
+     *       },
+     *       {
+     *         "id": "2828950",
+     *         "name": "维达抽纸",
      *         "count": 10,
-     *         "price": 5
+     *         "price": 61.90
      *       }
      *     ]
      *   }
@@ -103,9 +106,17 @@ public class OrderController extends Base{
      */
     @PostMapping("best")
     @ResponseBody
-    public Object bestResult(@RequestBody Order order){
-        ValidationResult results = promotionService.bestResult(order,promotionService.list());
-        return JsonResp.build().setMsg(results);
+    public JsonResp bestResult(@RequestBody Order order){
+        JsonResp resp = build(true);
+        try {
+            ValidateResult result = promotionService.bestResult(order,promotionService.list());
+            if(result==null) throw new Exception("找不到符合条件的促销");
+            resp.setMsg(result);
+        } catch (Exception e) {
+            resp = build(false);
+            resp.setMsg(e.getMessage());
+        }
+        return resp;
     }
 
 }

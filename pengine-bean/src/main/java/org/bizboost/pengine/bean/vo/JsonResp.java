@@ -14,8 +14,9 @@ public class JsonResp<T> {
         this.msg = msg;
     }
 
-    public final static JsonResp build(){
-        return new JsonResp(true,"success","{}");
+    public final static JsonResp build(boolean ok){
+        if (ok) return new JsonResp(ok,"Success","{}");
+        return new JsonResp(ok,"Failure","{}");
     }
 
     public JsonResp setOk(boolean ok) {

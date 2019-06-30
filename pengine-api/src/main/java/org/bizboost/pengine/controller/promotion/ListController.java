@@ -5,6 +5,9 @@ import org.bizboost.pengine.bean.vo.JsonResp;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.bizboost.pengine.bean.vo.JsonResp.build;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/promotion")
@@ -77,11 +80,15 @@ public class ListController extends Base{
     @PostMapping("list")
     @ResponseBody
     public JsonResp list(){
-
-        promotionService.list();
-
-        List<Promotion> promotions = promotionService.list();
-        return JsonResp.build().setMsg(promotions);
+        JsonResp resp = build(true);
+        try {
+            List<Promotion> promotions = promotionService.list();
+            resp.setMsg(promotions);
+        } catch (Exception e) {
+            resp = build(false);
+            resp.setMsg(e.getMessage());
+        }
+        return resp;
     }
 
 }

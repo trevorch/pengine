@@ -154,6 +154,7 @@ public class PromotionServiceImpl implements PromotionService {
                 switch (promotionActionResult.promotionType){
                     case reduce:
                     case discount:
+                    case suit:
                         // 满减和满折，需要把参与活动部分金额减去优惠 + 未参与活动部分金额，才是最终订单价格
                         BigDecimal afterPrice=new BigDecimal(promotionActionResult.result);
                         validateResult.setAfterPrice(afterPrice.setScale(2,BigDecimal.ROUND_UP));

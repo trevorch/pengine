@@ -4,5 +4,6 @@ public enum PromotionTypeEnum {
     reduce,
     discount,
     giving,
-    coupon
+    coupon,
+    suit
 }

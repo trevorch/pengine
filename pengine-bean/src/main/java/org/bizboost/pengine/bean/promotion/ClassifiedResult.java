@@ -1,8 +1,10 @@
 package org.bizboost.pengine.bean.promotion;
 
 import lombok.Data;
+import org.bizboost.pengine.bean.Clone;
 import org.bizboost.pengine.bean.trade.Item;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.List;
  * @version: 0.1.0$
  */
 @Data
-public class ClassifiedResult {
+public class ClassifiedResult extends Clone<ClassifiedResult> implements Serializable {
     private List<PromotionItem> lack=new ArrayList<>();
     private List<Item> extra=new ArrayList<>();
     private List<Item> common=new ArrayList<>();

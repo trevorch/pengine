@@ -5,7 +5,7 @@
   "sequence": 3,
   "start": "2019-06-28 00:00:00",
   "close": "2019-10-26 00:00:00",
-  "rule": "(c1*p1+c2*p2+c3*p3) >= 1000",
+  "condition": "false (c1*p1+c2*p2+c3*p3) >= 1000",
   "action": "reduce (c1*p1+c2*p2+c3*p3)-100",
   "map": {
     "1":{

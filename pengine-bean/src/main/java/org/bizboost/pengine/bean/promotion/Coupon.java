@@ -1,7 +1,9 @@
 package org.bizboost.pengine.bean.promotion;
 
 import lombok.Data;
+import org.bizboost.pengine.bean.Clone;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * @author ：cdm
@@ -11,7 +13,7 @@ import java.util.Date;
  * @version: 0.1.0$
  */
 @Data
-public class Coupon {
+public class Coupon extends Clone<Coupon> implements Serializable  {
     private String no;
     private Date expiredDate;
     private String desc;

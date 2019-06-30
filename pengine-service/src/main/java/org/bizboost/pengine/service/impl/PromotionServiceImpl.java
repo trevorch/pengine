@@ -9,10 +9,11 @@ import org.bizboost.pengine.bean.promotion.*;
 import org.bizboost.pengine.bean.trade.Order;
 import org.bizboost.pengine.bean.util.Action;
 import org.bizboost.pengine.bean.util.ActionFunction;
+import org.bizboost.pengine.bean.util.Rule;
 import org.bizboost.pengine.service.I18nService;
 import org.bizboost.pengine.service.PromotionCacheService;
 import org.bizboost.pengine.service.PromotionService;
-import org.bizboost.pengine.util.PromotionActionTool;
+import org.bizboost.pengine.util.PromotionTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class PromotionServiceImpl implements PromotionService {
             try {
                 validateResults.add(validate(order,promotion));
             } catch (PromotionInvalidException|IllegalRuleFormat|IllegalActionFormat e) {
-                log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]",T.getStackTrace()[1].getMethodName(), T.getStackTrace()[1].getLineNumber()-2, format("%s(%s)",i18nService.get("script.syntax.incorrect"),promotion.getRule()));
+                log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]",T.getStackTrace()[1].getMethodName(), T.getStackTrace()[1].getLineNumber()-2, format("%s(%s)",i18nService.get("script.syntax.incorrect"),promotion.getCondition()));
                 //e.printStackTrace();
             }
         });
@@ -93,11 +94,23 @@ public class PromotionServiceImpl implements PromotionService {
 
         // 验证订单及活动有效性, 并对订单商品以活动商品为基准分类：活动外的、活动中的、缺少的
         ClassifiedResult classifiedResult = promotion.validate(order);
+
+        // 检查促销活动是否需要商品各类精确匹配
+        Rule rule = promotion.getRule();
+        if(rule.isExactMatch()){
+            // 缺少活动商品、多出不在活动中的商品、商品种类数量不一致，都不能通过精确匹配促销活动验证
+            if(classifiedResult.getLack().size()>0||classifiedResult.getExtra().size()>0||classifiedResult.getCommon().size()!=promotion.getMap().size()){
+                throw new PromotionInvalidException(format("订单[%s]不满足促销活动[%s], 因为此活动需要商品种类完全相同，不能多也不能少",order.getNo(),promotion.getName()));
+            }
+        }
+
         if(classifiedResult.getLack().size()>0){
             throw new PromotionInvalidException(format("订单[%s]不满足促销活动[%s], 因为缺少活动商品[%s]",order.getNo(),promotion.getName(), classifiedResult.lackTips()));
         }
 
         if(classifiedResult.getExtra().size()>0) log.info(format("订单[%s]含有非促销活动商品[%s]",order.getNo(),classifiedResult.extraTips()));
+
+
 
         validateResult.setCommonPrice(classifiedResult.commonPriceSum());
         validateResult.setExtraPrice(classifiedResult.extraPriceSum());
@@ -117,14 +130,14 @@ public class PromotionServiceImpl implements PromotionService {
 
         Object valid;
         try {
-            valid = validator.eval(promotion.getRule());
+            valid = validator.eval(rule.getExpression());
         } catch (ScriptException e) {
-            log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(), T.getStackTrace()[1].getLineNumber()-2, format("%s(%s)",i18nService.get("script.syntax.incorrect"),promotion.getRule()));
+            log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(), T.getStackTrace()[1].getLineNumber()-2, format("%s(%s)",i18nService.get("script.syntax.incorrect"),promotion.getCondition()));
             e.printStackTrace();
-            throw new IllegalRuleFormat(format("促销规则有误[%s]",promotion.getRule()));
+            throw new IllegalRuleFormat(format("促销规则有误[%s]",promotion.getCondition()));
         }
 
-        Action action = PromotionActionTool.convert(promotion.getAction());
+        Action action = PromotionTool.convertToAction(promotion.getAction());
         validateResult.setPromotionType(action.getPromotionType());
         if(valid instanceof Boolean){
             if((boolean)valid){
@@ -169,7 +182,7 @@ public class PromotionServiceImpl implements PromotionService {
                         break;
                     case giving:
                     case coupon:
-                        List<Gift> gifts = PromotionActionTool.resolveGifts(action);
+                        List<Gift> gifts = PromotionTool.resolveGifts(action);
                         validateResult.setGifts(gifts);
                         // 赠送形式的活动订单总价格不会变
                         validateResult.setFinalPrice(order.getTotalPrice().setScale(2,BigDecimal.ROUND_UP));
@@ -268,8 +281,9 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
-    public Promotion create(Promotion promotion) {
+    public Promotion create(Promotion promotion) throws PromotionInvalidException {
         Thread T = Thread.currentThread();
+        promotion.validate();
         try {
             promotionCacheService.create(promotion.deepClone());
         } catch (IOException|ClassNotFoundException e) {

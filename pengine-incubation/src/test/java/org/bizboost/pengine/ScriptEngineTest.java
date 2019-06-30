@@ -3,15 +3,12 @@ package org.bizboost.pengine;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.FileUtils;
 import org.bizboost.pengine.bean.exception.IllegalActionFormat;
-import org.bizboost.pengine.util.PromotionActionTool;
+import org.bizboost.pengine.util.PromotionTool;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import javax.script.*;
 import java.io.File;
 import java.io.IOException;
 /**
@@ -32,6 +29,11 @@ public class ScriptEngineTest {
 		String funcs = FileUtils.readFileToString(new File(path),"utf8");
 
 		ScriptEngine engine = manager.getEngineByName("js");
+		engine.put("name0","cdm");
+		engine.put("name1","cdm");
+		engine.put("name2","cdm");
+
+		//Bindings b = engine.getBindings(null);
 
 		engine.eval(funcs);
 
@@ -39,7 +41,7 @@ public class ScriptEngineTest {
 
 
 		try {
-			log.info(JSON.toJSONString(PromotionActionTool.functionalize("a reduce 50 "),true));
+			log.info(JSON.toJSONString(PromotionTool.functionalize("a reduce 50 "),true));
 		} catch (IllegalActionFormat e) {
 			log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]",fr.getMethodName(),fr.getLineNumber(),e.getMessage());
 			e.printStackTrace();

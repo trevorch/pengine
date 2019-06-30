@@ -1,7 +1,10 @@
 package org.bizboost.pengine.bean.util;
 
 import lombok.Data;
+import org.bizboost.pengine.bean.Clone;
 import org.bizboost.pengine.bean.enums.PromotionTypeEnum;
+
+import java.io.Serializable;
 
 import static java.lang.String.format;
 /**
@@ -12,7 +15,7 @@ import static java.lang.String.format;
  * @version: 0.1.0$
  */
 @Data
-public class Action {
+public class Action extends Clone<Action> implements Serializable {
     private PromotionTypeEnum promotionType;
     private String strength;
 

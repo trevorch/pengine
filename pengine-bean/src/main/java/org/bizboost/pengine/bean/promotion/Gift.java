@@ -2,6 +2,10 @@ package org.bizboost.pengine.bean.promotion;
 
 import com.sun.deploy.util.StringUtils;
 import lombok.Data;
+import org.bizboost.pengine.bean.Clone;
+
+import java.io.Serializable;
+
 /**
  * @author ：cdm
  * @date ：Created in 2019/6/28 22:55
@@ -10,7 +14,7 @@ import lombok.Data;
  * @version: 0.1.0$
  */
 @Data
-public class Gift {
+public class Gift extends Clone<Gift> implements Serializable {
     private String id;
     private int count;
 

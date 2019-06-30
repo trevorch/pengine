@@ -31,14 +31,14 @@ public class CreateController extends Base {
      *
      *  @apiParamExample {json} 样例参数:
      *  {
-     *   "id": "DIS002",
-     *   "name": "满1000打6折",
-     *   "desc": "鲁花花生油满2瓶打5折且总价满1000打6折",
+     *   "id": "DIS001",
+     *   "name": "满50000打6折",
+     *   "desc": "满50000打6折",
      *   "sequence": 2,
      *   "start": "2019-06-28 00:00:00",
      *   "close": "2019-10-26 00:00:00",
-     *   "rule": "(c1>=2)&&(c1*p1+c2*p2+c3*p3) >= 1000",
-     *   "action": "discount ((c1*p1*0.5)+c2*p2+c3*p3)*0.6",
+     *   "condition": "false (c1*p1+c2*p2+c3*p3) >= 500",
+     *   "action": "discount (c1* p1+ c 2 *p 2+c3*p3)*0.6",
      *   "map": {
      *     "1":{
      *       "id": "8139349",
@@ -61,8 +61,6 @@ public class CreateController extends Base {
      *     "msg": "创建成功",
      *     "ok": true
      * }
-     *
-     * @apiErrorExample {json} 错误响应:
      *
      */
     @PostMapping("create")

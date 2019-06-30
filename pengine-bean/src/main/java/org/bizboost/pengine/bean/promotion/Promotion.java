@@ -2,12 +2,18 @@ package org.bizboost.pengine.bean.promotion;
 
 import lombok.Data;
 import org.bizboost.pengine.bean.Clone;
+import org.bizboost.pengine.bean.exception.IllegalRuleFormat;
 import org.bizboost.pengine.bean.exception.PromotionInvalidException;
 import org.bizboost.pengine.bean.trade.Order;
+import org.bizboost.pengine.bean.util.Rule;
+import org.bizboost.pengine.util.PromotionTool;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 /**
  * @author ：cdm
  * @date ：Created in 2019/6/28 22:55
@@ -19,15 +25,22 @@ import java.util.*;
 public class Promotion extends Clone<Promotion> implements Serializable {
     private String id;
     private String name;
+    private String condition;
+    private Rule rule;
     private String desc;
     private int sequence;
     private Date start;
     private Date close;
-    private String rule;
     private Map<String, PromotionItem> map;
     private String action;
 
     public void validate() throws PromotionInvalidException {
+        try {
+            Rule rule = PromotionTool.convertToRule(condition);
+            this.rule=rule;
+        } catch (IllegalRuleFormat e) {
+            throw new PromotionInvalidException(e.getMessage());
+        }
         if (start.getTime()>close.getTime()) throw new PromotionInvalidException("活动开始时间大于结束时间");
         long currentTime = System.currentTimeMillis();
         if (currentTime<start.getTime()) throw new PromotionInvalidException("活动尚未开始");

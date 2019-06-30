@@ -1,6 +1,7 @@
 package org.bizboost.pengine.bean.promotion;
 
 import lombok.Data;
+import org.bizboost.pengine.bean.Clone;
 import org.bizboost.pengine.bean.enums.PromotionTypeEnum;
 import org.bizboost.pengine.bean.trade.Order;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @version: 0.1.0$
  */
 @Data
-public class ValidateResult<T> implements Serializable {
+public class ValidateResult extends Clone<ValidateResult> implements Serializable {
     private boolean ok;
     private String msg;
     // 订单最终总价格

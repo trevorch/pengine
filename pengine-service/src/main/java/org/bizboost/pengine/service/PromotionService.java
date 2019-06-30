@@ -25,7 +25,7 @@ public interface PromotionService {
     Promotion getByProductId(String pid);
     VirtualProduct getVirtualProduct(String promotionId) throws PromotionInvalidException;
 
-    Promotion create(Promotion promotion);
+    Promotion create(Promotion promotion) throws PromotionInvalidException;
 
     List<Promotion> list();
 

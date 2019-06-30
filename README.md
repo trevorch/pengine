@@ -28,3 +28,76 @@
 6. 打包固定价格 &radic;
 
 注；以上的“满”可能指价格满，也可以是商品数量满
+
+
+# 关于apidoc
+## 不能发送json数据
+#### 1. 编辑如下文件
+C:\Users\Trevor\AppData\Roaming\npm\node_modules\apidoc\template\utils\send_sample_request.js<br>
+把96行开始的以下代码：
+```
+// send AJAX request, catch success or error callback
+var ajaxRequest = {
+    url        : url,
+    headers    : header,
+    data       : param,
+    type       : type.toUpperCase(),
+    success    : displaySuccess,
+    error      : displayError
+};
+
+$.ajax(ajaxRequest);
+```
+
+替换为以下代码：
+```
+// send AJAX request, catch success or error callback
+if(param.RequestBody) {
+param=param.RequestBody
+console.log("JSON POST")
+$.ajax({
+        url: url,
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(JSON.parse(param)),
+        headers: header,
+        type: type.toUpperCase(),
+        success: displaySuccess,
+        error: displayError
+    });
+}
+else {
+    var ajaxRequest = {
+        url        : url,
+        headers    : header,
+        data       : param,
+        type       : type.toUpperCase(),
+        success    : displaySuccess,
+        error      : displayError
+    };
+
+    $.ajax(ajaxRequest);
+}
+
+
+
+```
+#### 在注释中使用RequestBody作为参数名
+```
+    /**
+     * @api {post} /promotion/create 创建促销
+     * @apiSampleRequest /promotion/create
+     * @apiName create
+     * @apiGroup promotion
+     *
+     * @apiParam {json} RequestBody
+```
+
+## 解决apidoc访问不了后台的问题
+在Controller上使用注解@CrossOrigin
+```
+@CrossOrigin
+@RestController
+@RequestMapping("/promotion")
+public class CreateController extends Base {
+```

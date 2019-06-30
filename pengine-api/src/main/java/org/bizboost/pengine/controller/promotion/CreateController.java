@@ -12,7 +12,7 @@ import static org.bizboost.pengine.bean.vo.JsonResp.build;
 public class CreateController extends Base {
 
     /**
-     * @api {post} /promotion/create 添加促销
+     * @api {post} /promotion/create 创建促销
      * @apiSampleRequest /promotion/create
      * @apiName create
      * @apiGroup promotion
@@ -48,7 +48,7 @@ public class CreateController extends Base {
      * @apiSuccessExample {json} 成功响应:
      * {
      *     "code": "success",
-     *     "msg": "添加成功！",
+     *     "msg": "创建成功",
      *     "ok": true
      * }
      *
@@ -59,6 +59,7 @@ public class CreateController extends Base {
         JsonResp resp = build(true);
         try {
             promotionService.create(promotion);
+            resp.setMsg("创建成功");
         } catch (Exception e) {
             resp = build(false);
             resp.setMsg(e.getMessage());

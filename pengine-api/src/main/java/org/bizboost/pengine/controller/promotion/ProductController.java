@@ -1,6 +1,7 @@
 package org.bizboost.pengine.controller.promotion;
 
 import org.bizboost.pengine.bean.promotion.Promotion;
+import org.bizboost.pengine.bean.promotion.VirtualProduct;
 import org.bizboost.pengine.bean.vo.JsonResp;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import static org.bizboost.pengine.bean.vo.JsonResp.build;
 public class ProductController extends Base{
 
     /**
-     * @api {get} /promotion/get-by-prod/:productId 商品最前促销
+     * @api {get} /promotion/get-by-prod/:productId 取商品排序最前促销
      * @apiSampleRequest /promotion/get-by-prod/:productId
      * @apiName get-by-prod
      * @apiGroup promotion
@@ -23,29 +24,29 @@ public class ProductController extends Base{
 
      * @apiSuccessExample {json} 成功响应:
      * {
-     *     "code": "success",
+     *     "code": "Success",
      *     "msg": {
-     *         "action": "((c1*p1*0.8)+c2*p2+c3*p3)*0.8",
+     *         "action": "giving 2828950:2",
      *         "close": 1572019200000,
-     *         "desc": "康师傅满10支打5折且总价满100打八折",
-     *         "id": "PID-002",
+     *         "desc": "满700送纸巾",
+     *         "id": "GIV001",
      *         "map": {
      *             "1": {
-     *                 "id": "1D45497B1D9749A6AD9E36D2E763490E",
-     *                 "name": "康师傅"
+     *                 "id": "8139349",
+     *                 "name": "伊利金典有机纯牛奶"
      *             },
      *             "2": {
-     *                 "id": "9F225BE8EB81477CB2373EA8281A20C9",
-     *                 "name": "黑人牙膏"
+     *                 "id": "1599047",
+     *                 "name": "鲁花花生油"
      *             },
      *             "3": {
-     *                 "id": "85B2A6E48E2A419CBF23AC41AE467F97",
-     *                 "name": "统一奶茶"
+     *                 "id": "2828950",
+     *                 "name": "维达抽纸"
      *             }
      *         },
-     *         "name": "满100打八折",
-     *         "rule": "(c1>=10)&&(c1*p1+c2*p2+c3*p3) >= 100",
-     *         "sequence": 2,
+     *         "name": "满700送1提纸巾",
+     *         "rule": "(c1*p1+c2*p2+c3*p3) >= 700",
+     *         "sequence": 0,
      *         "start": 1561651200000
      *     },
      *     "ok": true
@@ -78,31 +79,33 @@ public class ProductController extends Base{
 
      * @apiSuccessExample {json} 成功响应:
      * {
-     *     "code": "success",
-     *     "msg": {
-     *         "action": "((c1*p1*0.8)+c2*p2+c3*p3)*0.8",
-     *         "close": 1572019200000,
-     *         "desc": "康师傅满10支打5折且总价满100打八折",
-     *         "id": "PID-002",
-     *         "map": {
-     *             "1": {
-     *                 "id": "1D45497B1D9749A6AD9E36D2E763490E",
-     *                 "name": "康师傅"
+     *     "code": "Success",
+     *     "msg": [
+     *         {
+     *             "action": "discount ((c1*p1*0.5)+c2*p2+c3*p3)*0.6",
+     *             "close": 1572019200000,
+     *             "desc": "鲁花花生油满2瓶打5折且总价满1000打6折",
+     *             "id": "DIS002",
+     *             "map": {
+     *                 "1": {
+     *                     "id": "8139349",
+     *                     "name": "伊利金典有机纯牛奶"
+     *                 },
+     *                 "2": {
+     *                     "id": "1599047",
+     *                     "name": "鲁花花生油"
+     *                 },
+     *                 "3": {
+     *                     "id": "2828950",
+     *                     "name": "维达抽纸"
+     *                 }
      *             },
-     *             "2": {
-     *                 "id": "9F225BE8EB81477CB2373EA8281A20C9",
-     *                 "name": "黑人牙膏"
-     *             },
-     *             "3": {
-     *                 "id": "85B2A6E48E2A419CBF23AC41AE467F97",
-     *                 "name": "统一奶茶"
-     *             }
-     *         },
-     *         "name": "满100打八折",
-     *         "rule": "(c1>=10)&&(c1*p1+c2*p2+c3*p3) >= 100",
-     *         "sequence": 2,
-     *         "start": 1561651200000
-     *     },
+     *             "name": "满1000打6折",
+     *             "rule": "(c1>=2)&&(c1*p1+c2*p2+c3*p3) >= 1000",
+     *             "sequence": 2,
+     *             "start": 1561651200000
+     *         }
+     *     ],
      *     "ok": true
      * }
      *
@@ -114,6 +117,55 @@ public class ProductController extends Base{
         try {
             List<Promotion> promotions = promotionService.listByProductId(productId);
             resp.setMsg(promotions);
+        } catch (Exception e) {
+            resp = build(false);
+            resp.setMsg(e.getMessage());
+        }
+        return resp;
+    }
+
+
+    /**
+     * @api {get} /promotion/virtual/:promotionId 取促销虚拟商品
+     * @apiSampleRequest /promotion/virtual/:promotionId
+     * @apiName virtualProduct
+     * @apiGroup promotion
+     *
+     * @apiParam {string} promotionId
+
+     * @apiSuccessExample {json} 成功响应:
+     * {
+     *     "code": "Success",
+     *     "msg": {
+     *         "desc": "满700送纸巾",
+     *         "id": "PROM-GIV001",
+     *         "items": [
+     *             {
+     *                 "id": "8139349",
+     *                 "name": "伊利金典有机纯牛奶"
+     *             },
+     *             {
+     *                 "id": "1599047",
+     *                 "name": "鲁花花生油"
+     *             },
+     *             {
+     *                 "id": "2828950",
+     *                 "name": "维达抽纸"
+     *             }
+     *         ],
+     *         "name": "满700送1提纸巾"
+     *     },
+     *     "ok": true
+     * }
+     *
+     */
+    @GetMapping("virtual/{promotionId}")
+    @ResponseBody
+    public JsonResp getVirtualProduct(@PathVariable String promotionId) {
+        JsonResp resp = build(true);
+        try {
+            VirtualProduct product = promotionService.getVirtualProduct(promotionId);
+            resp.setMsg(product);
         } catch (Exception e) {
             resp = build(false);
             resp.setMsg(e.getMessage());

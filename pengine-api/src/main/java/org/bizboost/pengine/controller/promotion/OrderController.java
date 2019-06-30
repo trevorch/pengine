@@ -23,7 +23,7 @@ public class OrderController extends Base{
      *
      * @apiParam {json} RequestBody
      *
-     * @apiParamExample {json} 请求参数样例
+     * @apiParamExample {json} 样例参数:
      *  {
      *     "no":"98238179849",
      *     "items":[
@@ -111,6 +111,12 @@ public class OrderController extends Base{
      *     "ok": true
      * }
      *
+     * @apiErrorExample {json} 错误响应:
+     * {
+     *     "code": "Failure",
+     *     "msg": "找不到符合条件的促销",
+     *     "ok": false
+     * }
      */
     @PostMapping("best")
     @ResponseBody

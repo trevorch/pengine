@@ -21,7 +21,7 @@ public class ListController extends Base{
      * @apiName list
      * @apiGroup Promotion
      *
-     * @apiParamExample {json} 请求参数样例:
+     * @apiParamExample {json} 样例参数:
      *  无需参数
      *
      * @apiSuccessExample {json} 成功响应:

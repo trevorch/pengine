@@ -55,6 +55,12 @@ public class ProductController extends Base{
      *     "ok": true
      * }
      *
+     * @apiErrorExample {json} 错误响应:
+     * {
+     *     "code": "Failure",
+     *     "msg": "此商品没有任何促销活动",
+     *     "ok": false
+     * }
      */
     @GetMapping("get-by-prod/{productId}")
     @ResponseBody
@@ -115,6 +121,7 @@ public class ProductController extends Base{
      *     "ok": true
      * }
      *
+     *
      */
     @GetMapping("list-by-prod/{productId}")
     @ResponseBody
@@ -167,6 +174,12 @@ public class ProductController extends Base{
      *     "ok": true
      * }
      *
+     * @apiErrorExample {json} 错误响应:
+     * {
+     *     "code": "Failure",
+     *     "msg": "促销[promotionId=55]不存在",
+     *     "ok": false
+     * }
      */
     @GetMapping("virtual/{promotionId}")
     @ResponseBody

@@ -26,7 +26,7 @@ public class ValidateController extends Base {
      *
      * @apiParam {json} RequestBody
      *
-     * @apiParamExample {json} 请求参数样例
+     * @apiParamExample {json} 样例参数:
      *  {
      * 	"order":  {
      *     "no":"98238179849",

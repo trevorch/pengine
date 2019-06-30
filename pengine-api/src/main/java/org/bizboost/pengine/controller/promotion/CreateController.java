@@ -22,7 +22,7 @@ public class CreateController extends Base {
      *
      * @apiParam {json} RequestBody
      *
-     *  @apiParamExample {json} 请求参数样例:
+     *  @apiParamExample {json} 样例参数:
      *  {
      *   "id": "DIS002",
      *   "name": "满1000打6折",
@@ -54,6 +54,8 @@ public class CreateController extends Base {
      *     "msg": "创建成功",
      *     "ok": true
      * }
+     *
+     * @apiErrorExample {json} 错误响应:
      *
      */
     @PostMapping("create")

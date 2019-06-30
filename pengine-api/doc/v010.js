@@ -7,7 +7,7 @@
  *
  * @apiParam {json} RequestBody
  *
- *  @apiParamExample {json} 请求参数样例:
+ *  @apiParamExample {json} 样例参数:
  *  {
  *   "id": "DIS002",
  *   "name": "满1000打6折",
@@ -50,7 +50,7 @@
  * @apiName list
  * @apiGroup Promotion
  *
- * @apiParamExample {json} 请求参数样例:
+ * @apiParamExample {json} 样例参数:
  *  无需参数
  *
  * @apiSuccessExample {json} 成功响应:
@@ -96,7 +96,7 @@
  *
  * @apiParam {json} RequestBody
  *
- * @apiParamExample {json} 请求参数样例
+ * @apiParamExample {json} 样例参数:
  *  {
  *     "no":"98238179849",
  *     "items":[

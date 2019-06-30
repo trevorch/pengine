@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 
 /**
@@ -84,10 +86,11 @@ public class PromotionTool {
      */
     public final static Rule convertToRule(String conditionStr) throws IllegalRuleFormat {
         conditionStr= StringUtils.trimWhitespace(conditionStr);
-        if(conditionStr==null) throw new IllegalRuleFormat(format("非法促销力度格式不能为空, 格式要求:'<促销类型> <力度>'",conditionStr));
+        if(conditionStr==null) throw new IllegalRuleFormat(format("促销条件不能为空, 格式要求:'<真|假> <判断条件>'",conditionStr));
         int firstSpaceIndex = conditionStr.indexOf(" ");
-        if(firstSpaceIndex==-1||firstSpaceIndex==0) throw new IllegalRuleFormat(format("非法促销力度格式:%s, 格式要求:'<促销类型> <力度>'",conditionStr));
+        if(firstSpaceIndex==-1||firstSpaceIndex==0) throw new IllegalRuleFormat(format("非法促销条件:%s, 格式要求:'<真|假> <判断条件>'",conditionStr));
         String exactMatchStr = StringUtils.trimWhitespace(conditionStr.substring(0,firstSpaceIndex));
+        if(!TRUE.toString().equals(exactMatchStr)&&!FALSE.toString().equals(exactMatchStr)) throw new IllegalRuleFormat(format("非法促销条件:%s, 格式要求:'<真|假> <判断条件>'",conditionStr));
         String ruleStr = StringUtils.trimWhitespace(conditionStr.substring(firstSpaceIndex)).replaceAll(" ","");
         Rule rule = new Rule();
         Boolean exactMatch = Boolean.valueOf(exactMatchStr);

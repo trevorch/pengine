@@ -110,3 +110,9 @@ C:\Users\Trevor\AppData\Roaming\npm\node_modules\apidoc\template\index.html<br>
 @RequestMapping("/promotion")
 public class CreateController extends Base {
 ```
+
+## 文档生成
+```
+npm install apidoc
+apidoc -t template
+```

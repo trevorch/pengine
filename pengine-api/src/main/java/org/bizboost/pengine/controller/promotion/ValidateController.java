@@ -17,6 +17,7 @@ public class ValidateController extends Base {
 
     /**
      * @api {post} /promotion/validate 验证促销
+     * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/validate
      * @apiName validate
      * @apiGroup promotion

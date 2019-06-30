@@ -14,6 +14,7 @@ public class OrderController extends Base{
 
     /**
      * @api {post} /promotion/best 订单最佳促销
+     * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/best
      * @apiName bestResult
      * @apiGroup promotion

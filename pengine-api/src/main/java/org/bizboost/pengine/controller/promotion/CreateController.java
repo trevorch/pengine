@@ -13,6 +13,7 @@ public class CreateController extends Base {
 
     /**
      * @api {post} /promotion/create 创建促销
+     * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/create
      * @apiName create
      * @apiGroup promotion

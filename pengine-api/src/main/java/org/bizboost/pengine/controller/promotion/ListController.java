@@ -14,6 +14,7 @@ import static org.bizboost.pengine.bean.vo.JsonResp.build;
 public class ListController extends Base{
     /**
      * @api {post} /promotion/list 促销列表
+     * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/list
      * @apiName list
      * @apiGroup promotion

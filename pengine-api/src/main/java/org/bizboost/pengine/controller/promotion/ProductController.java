@@ -16,6 +16,7 @@ public class ProductController extends Base{
 
     /**
      * @api {get} /promotion/get-by-prod/:productId 取商品排序最前促销
+     * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/get-by-prod/:productId
      * @apiName get-by-prod
      * @apiGroup promotion
@@ -71,6 +72,7 @@ public class ProductController extends Base{
 
     /**
      * @api {get} /promotion/list-by-prod/:productId 商品促销列表
+     * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/list-by-prod/:productId
      * @apiName list-by-prod
      * @apiGroup promotion
@@ -127,6 +129,7 @@ public class ProductController extends Base{
 
     /**
      * @api {get} /promotion/virtual/:promotionId 取促销虚拟商品
+     * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/virtual/:promotionId
      * @apiName virtualProduct
      * @apiGroup promotion

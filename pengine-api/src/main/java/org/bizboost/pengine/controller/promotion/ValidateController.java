@@ -16,13 +16,15 @@ import static org.bizboost.pengine.bean.vo.JsonResp.build;
 public class ValidateController extends Base {
 
     /**
-     * @api {post} /promotion/validate 验证促销
+     * @api {post} /promotion/validate 3.验证促销活动
+     * @apiDescription
+     * 验证一个订单是否满足所指定的促销活动
      * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/validate
      * @apiName validate
-     * @apiGroup promotion
+     * @apiGroup Promotion
      *
-     * @apiParam {string} RequestBody
+     * @apiParam {json} RequestBody
      *
      * @apiParamExample {json} 请求参数样例
      *  {
@@ -56,15 +58,23 @@ public class ValidateController extends Base {
      * {
      *     "code": "Success",
      *     "msg": {
-     *         "finalPrice": 2627.94,
+     *         "commonPrice": 7974.9, // 参与活动的总价格
+     *         "extraPrice": 7190, // 不参与活动的总价格
+     *         "finalPrice": 9817.94, // 订单最终总价格
      *         "gifts": [],
-     *         "msg": "订单【98238179849】总价【7974.9】满足【鲁花花生油满2瓶打5折且总价满1000打6折】,最终价格【2627.94】",
+     *         "msg": "order.promotion.valid",
      *         "ok": true,
      *         "order": {
      *             "items": [
      *                 {
      *                     "count": 100,
      *                     "id": "8139349",
+     *                     "name": "伊利金典有机纯牛奶",
+     *                     "price": 71.9
+     *                 },
+     *                 {
+     *                     "count": 100,
+     *                     "id": "81393490",
      *                     "name": "伊利金典有机纯牛奶",
      *                     "price": 71.9
      *                 },
@@ -82,7 +92,7 @@ public class ValidateController extends Base {
      *                 }
      *             ],
      *             "no": "98238179849",
-     *             "totalPrice": 7974.9
+     *             "totalPrice": 15164.9
      *         },
      *         "promotion": {
      *             "action": "discount ((c1*p1*0.5)+c2*p2+c3*p3)*0.6",
@@ -109,11 +119,13 @@ public class ValidateController extends Base {
      *             "start": 1561651200000
      *         },
      *         "promotionType": "discount",
+     *         "reducedPrice": 2627.94, // 参与活动的总价格减去优惠后的价格
      *         "saving": 5346.96,
-     *         "savingPercent": 67
+     *         "savingPercent": 35.3
      *     },
      *     "ok": true
      * }
+     *
      *
      */
     @PostMapping("validate")

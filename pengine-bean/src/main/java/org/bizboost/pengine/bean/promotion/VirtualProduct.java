@@ -11,5 +11,5 @@ public class VirtualProduct extends Clone<VirtualProduct> implements Serializabl
     private String id;
     private String name;
     private String desc;
-    private List<PromItem> items;
+    private List<PromotionItem> items;
 }

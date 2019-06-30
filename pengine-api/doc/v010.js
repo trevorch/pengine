@@ -3,7 +3,7 @@
  * @apiVersion 0.1.0
  * @apiSampleRequest /promotion/create
  * @apiName create
- * @apiGroup promotion
+ * @apiGroup Promotion
  *
  * @apiParam {json} RequestBody
  *
@@ -48,7 +48,7 @@
  * @apiVersion 0.1.0
  * @apiSampleRequest /promotion/list
  * @apiName list
- * @apiGroup promotion
+ * @apiGroup Promotion
  *
  * @apiParamExample {json} 请求参数样例:
  *  无需参数
@@ -92,9 +92,9 @@
  * @apiVersion 0.1.0
  * @apiSampleRequest /promotion/best
  * @apiName bestResult
- * @apiGroup promotion
+ * @apiGroup Promotion
  *
- * @apiParam {string} RequestBody
+ * @apiParam {json} RequestBody
  *
  * @apiParamExample {json} 请求参数样例
  *  {

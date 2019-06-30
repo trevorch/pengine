@@ -13,11 +13,13 @@ import static org.bizboost.pengine.bean.vo.JsonResp.build;
 @RequestMapping("/promotion")
 public class ListController extends Base{
     /**
-     * @api {post} /promotion/list 促销列表
+     * @api {post} /promotion/list 2.促销活动列表
+     * @apiDescription
+     * 获取所有有效的促销活动，以列表形式返回
      * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/list
      * @apiName list
-     * @apiGroup promotion
+     * @apiGroup Promotion
      *
      * @apiParamExample {json} 请求参数样例:
      *  无需参数

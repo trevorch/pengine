@@ -84,27 +84,30 @@ public class PromotionServiceImpl implements PromotionService {
         validateResult.setPromotion(promotion);
         validateResult.setOrder(order);
         validateResult.setGifts(Collections.EMPTY_LIST);
-        // 验证订单及活动有效性
-        List<PromItem> lackItems = promotion.validate(order);
-        if(lackItems.size()>0){
-            StringBuilder sb = new StringBuilder();
-            lackItems.forEach(item -> sb.append(item.getName()).append("(").append(item.getId()).append(") "));
-            throw new PromotionInvalidException(format("订单[%s]不满足促销活动[%s], 因为缺少活动商品[%s]",order.getNo(),promotion.getName(), sb.toString()));
+
+        // 验证订单及活动有效性, 并对订单商品以活动商品为基准分类：活动外的、活动中的、缺少的
+        ClassifiedResult classifiedResult = promotion.validate(order);
+        if(classifiedResult.getLack().size()>0){
+            throw new PromotionInvalidException(format("订单[%s]不满足促销活动[%s], 因为缺少活动商品[%s]",order.getNo(),promotion.getName(), classifiedResult.lackTips()));
         }
 
-        Map<String, PromItem> indexItemMap = promotion.getMap();
+        if(classifiedResult.getExtra().size()>0) log.info(format("订单[%s]含有非促销活动商品[%s]",order.getNo(),classifiedResult.extraTips()));
 
+        validateResult.setCommonPrice(classifiedResult.commonPriceSum());
+        validateResult.setExtraPrice(classifiedResult.extraPriceSum());
+
+        Map<String, PromotionItem> indexItemMap = promotion.getMap();
         Map<String,String> idIndexMap = new HashMap<>();
         indexItemMap.forEach((index,item)->idIndexMap.put(item.getId(),index));
 
         ScriptEngine validator = manager.getEngineByName("js");
         // 给规则里的变量设置值
-        order.getItems().forEach(item -> {
+        // 只针对活动商品进行促销优惠计算
+        classifiedResult.getCommon().forEach(item -> {
             String index = idIndexMap.get(item.getId());
             validator.put("c"+index,item.getCount());
             validator.put("p"+index,item.getPrice());
         });
-        validator.put("totalPrice",order.getTotalPrice());
 
         Object valid;
         try {
@@ -148,21 +151,26 @@ public class PromotionServiceImpl implements PromotionService {
                     }
                 }
 
-                String finalPrice = order.getTotalPrice().toString();
                 switch (promotionActionResult.promotionType){
                     case reduce:
                     case discount:
-                        // 满减和满折，把价格设置回验证结果即可
-                        finalPrice=promotionActionResult.result;
+                        // 满减和满折，需要把参与活动部分金额减去优惠 + 未参与活动部分金额，才是最终订单价格
+                        BigDecimal reducedPrice=new BigDecimal(promotionActionResult.result);
+                        validateResult.setReducedPrice(reducedPrice.setScale(2,BigDecimal.ROUND_UP));
+                        BigDecimal finalPrice = validateResult.getExtraPrice().add(reducedPrice).setScale(2,BigDecimal.ROUND_UP);
+                        validateResult.setFinalPrice(finalPrice);
                         break;
                     case giving:
                     case coupon:
                         List<Gift> gifts = PromotionActionTool.resolveGifts(action);
                         validateResult.setGifts(gifts);
+                        // 赠送形式的活动订单总价格不会变
+                        validateResult.setFinalPrice(order.getTotalPrice().setScale(2,BigDecimal.ROUND_UP));
                         break;
                 }
-                validateResult.setFinalPrice(new BigDecimal(finalPrice).setScale(2,BigDecimal.ROUND_UP));
-                String msg = format(i18nService.get("order.promotion.valid"),order.getNo(),order.getTotalPrice(),promotion.getDesc(),validateResult.getFinalPrice());
+
+                // 订单[%s],总价[%s],非活动[%s],活动[%s],满足[%s],最终价[%s]
+                String msg = format(i18nService.get("order.promotion.valid"),order.getNo(),order.getTotalPrice(),classifiedResult.extraPriceSum(),classifiedResult.commonPriceSum(),promotion.getName(),validateResult.getFinalPrice());
                 validateResult.setMsg(msg);
                 log.info(msg);
             }else{
@@ -241,7 +249,7 @@ public class PromotionServiceImpl implements PromotionService {
             product.setName(clone.getName());
             product.setDesc(clone.getDesc());
             product.setId("PROM-"+clone.getId());
-            List<PromItem> items = new ArrayList<>();
+            List<PromotionItem> items = new ArrayList<>();
             clone.getMap().forEach((index,item)->items.add(item));
             product.setItems(items);
         } catch (Exception e) {

@@ -96,7 +96,7 @@ C:\Users\Trevor\AppData\Roaming\npm\node_modules\apidoc\template\index.html<br>
      * @api {post} /promotion/create 创建促销
      * @apiSampleRequest /promotion/create
      * @apiName create
-     * @apiGroup promotion
+     * @apiGroup Promotion
      *
      * @apiParam {json} RequestBody
 ```

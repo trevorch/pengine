@@ -12,7 +12,14 @@ import java.util.List;
 public class ValidateResult<T> implements Serializable {
     private boolean ok;
     private String msg;
+    // 订单最终总价格
     private BigDecimal finalPrice;
+    // 参与活动的总价格
+    private BigDecimal commonPrice;
+    // 参与活动的总价格减去优惠后的价格
+    private BigDecimal reducedPrice;
+    // 不参与活动的总价格
+    private BigDecimal extraPrice;
     private Promotion promotion;
     private Order order;
     private PromotionTypeEnum promotionType;// 促销类型

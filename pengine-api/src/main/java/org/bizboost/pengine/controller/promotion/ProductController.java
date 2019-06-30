@@ -15,11 +15,13 @@ import static org.bizboost.pengine.bean.vo.JsonResp.build;
 public class ProductController extends Base{
 
     /**
-     * @api {get} /promotion/get-by-prod/:productId 取商品排序最前促销
+     * @api {get} /promotion/get-by-prod/:productId 5.商品促销活动
+     * @apiDescription
+     * 根据商品ID取一个排序最靠前的促销活动，所获取的促销活动信息可用于显示在商品展示信息上
      * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/get-by-prod/:productId
      * @apiName get-by-prod
-     * @apiGroup promotion
+     * @apiGroup Promotion
      *
      * @apiParam {string} productId
 
@@ -71,11 +73,13 @@ public class ProductController extends Base{
 
 
     /**
-     * @api {get} /promotion/list-by-prod/:productId 商品促销列表
+     * @api {get} /promotion/list-by-prod/:productId 6.商品促销列表
+     * @apiDescription
+     * 根据商品ID获取此商品参与的所有促销活动
      * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/list-by-prod/:productId
      * @apiName list-by-prod
-     * @apiGroup promotion
+     * @apiGroup Promotion
      *
      * @apiParam {string} productId
 
@@ -128,11 +132,13 @@ public class ProductController extends Base{
 
 
     /**
-     * @api {get} /promotion/virtual/:promotionId 取促销虚拟商品
+     * @api {get} /promotion/virtual/:promotionId 7.促销虚拟商品
+     * @apiDescription
+     * 根据促销ID，取回一个促销虚拟商品，此商品属性是真正商品属性的子集，可显示在真正商品可显示的UI位置
      * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/virtual/:promotionId
      * @apiName virtualProduct
-     * @apiGroup promotion
+     * @apiGroup Promotion
      *
      * @apiParam {string} promotionId
 

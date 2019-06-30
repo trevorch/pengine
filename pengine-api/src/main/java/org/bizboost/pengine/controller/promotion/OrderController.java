@@ -13,13 +13,15 @@ import static org.bizboost.pengine.bean.vo.JsonResp.build;
 public class OrderController extends Base{
 
     /**
-     * @api {post} /promotion/best 订单最佳促销
+     * @api {post} /promotion/best 4.最佳促销活动
+     * @apiDescription
+     * 获取订单的最优惠的促销活动
      * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/best
      * @apiName bestResult
-     * @apiGroup promotion
+     * @apiGroup Promotion
      *
-     * @apiParam {string} RequestBody
+     * @apiParam {json} RequestBody
      *
      * @apiParamExample {json} 请求参数样例
      *  {

@@ -12,11 +12,13 @@ import static org.bizboost.pengine.bean.vo.JsonResp.build;
 public class CreateController extends Base {
 
     /**
-     * @api {post} /promotion/create 创建促销
+     * @api {post} /promotion/create 1.创建促销活动
+     * @apiDescription
+     * 如果指定的促销活动ID在系统中已经存在，则新促销活动会覆盖系统中已经存在的促销活动
      * @apiVersion 0.2.0
      * @apiSampleRequest /promotion/create
      * @apiName create
-     * @apiGroup promotion
+     * @apiGroup Promotion
      *
      * @apiParam {json} RequestBody
      *

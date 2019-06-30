@@ -18,7 +18,7 @@ public class Promotion extends Clone<Promotion> implements Serializable {
     private Date start;
     private Date close;
     private String rule;
-    private Map<String, PromItem> map;
+    private Map<String, PromotionItem> map;
     private String action;
 
     public void validate() throws PromotionInvalidException {
@@ -28,21 +28,48 @@ public class Promotion extends Clone<Promotion> implements Serializable {
         if (currentTime>close.getTime()) throw new PromotionInvalidException("活动已经结束");
     }
 
-    public List<PromItem> validate(Order order) throws PromotionInvalidException {
+    /**
+     * 以促销活动商品为准，把订单商品分成三类：订单和活动都有(common)、订单有活动没有(extra)、活动有订单没有(lack)
+     * @param order
+     * @return
+     * @throws PromotionInvalidException
+     */
+    public ClassifiedResult validate(Order order) throws PromotionInvalidException {
         Thread T = Thread.currentThread();
         validate();
+        ClassifiedResult classifiedResult = new ClassifiedResult();
         Set<String> orderItemIdSet = new HashSet<>();
         order.getItems().forEach(item -> orderItemIdSet.add(item.getId()));
-        List<PromItem> lackPromItems = new ArrayList<>();
+        // 把在订单中未出现的活动商品过滤出来
+        Set<String> promotionItemIdSet = new HashSet<>();
         map.forEach((index,item)->{
+            promotionItemIdSet.add(item.getId());
             if(!orderItemIdSet.contains(item.getId())) {
                 try {
-                    lackPromItems.add(item.deepClone());
+                    classifiedResult.getLack().add(item.deepClone());
                 } catch (IOException|ClassNotFoundException e) {
                     e.printStackTrace();
                 }
             }
         });
-        return lackPromItems;
+
+        // 把订单中不在活动范围内的商品过滤出来, 订单和活动都有的也过滤出来
+        order.getItems().forEach(item->{
+            if (promotionItemIdSet.contains(item.getId())){
+                try {
+                    classifiedResult.getCommon().add(item.deepClone());
+                } catch (IOException|ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                try {
+                    classifiedResult.getExtra().add(item.deepClone());
+                } catch (IOException|ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        return classifiedResult;
     }
 }

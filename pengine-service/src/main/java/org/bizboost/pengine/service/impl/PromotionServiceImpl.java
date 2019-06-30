@@ -155,9 +155,9 @@ public class PromotionServiceImpl implements PromotionService {
                     case reduce:
                     case discount:
                         // 满减和满折，需要把参与活动部分金额减去优惠 + 未参与活动部分金额，才是最终订单价格
-                        BigDecimal reducedPrice=new BigDecimal(promotionActionResult.result);
-                        validateResult.setReducedPrice(reducedPrice.setScale(2,BigDecimal.ROUND_UP));
-                        BigDecimal finalPrice = validateResult.getExtraPrice().add(reducedPrice).setScale(2,BigDecimal.ROUND_UP);
+                        BigDecimal afterPrice=new BigDecimal(promotionActionResult.result);
+                        validateResult.setAfterPrice(afterPrice.setScale(2,BigDecimal.ROUND_UP));
+                        BigDecimal finalPrice = validateResult.getExtraPrice().add(afterPrice).setScale(2,BigDecimal.ROUND_UP);
                         validateResult.setFinalPrice(finalPrice);
                         break;
                     case giving:
@@ -221,7 +221,7 @@ public class PromotionServiceImpl implements PromotionService {
             try {
                 promotion=priority.deepClone();
             } catch (Exception e) {
-                log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber(),e.getMessage());
+                log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber()-2,e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -253,8 +253,7 @@ public class PromotionServiceImpl implements PromotionService {
             clone.getMap().forEach((index,item)->items.add(item));
             product.setItems(items);
         } catch (Exception e) {
-            int ln = Thread.currentThread().getStackTrace()[1].getLineNumber()-8;
-            log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber(),e.getMessage());
+            log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber()-8,e.getMessage());
             e.printStackTrace();
         }
 
@@ -266,12 +265,10 @@ public class PromotionServiceImpl implements PromotionService {
         Thread T = Thread.currentThread();
         try {
             promotionCacheService.create(promotion.deepClone());
-        } catch (IOException e) {
+        } catch (IOException|ClassNotFoundException e) {
+            log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber()-2,e.getMessage());
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            int ln = Thread.currentThread().getStackTrace()[1].getLineNumber()-4;
-            log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber(),e.getMessage());
-            e.printStackTrace();
+
         }
         return promotion;
     }

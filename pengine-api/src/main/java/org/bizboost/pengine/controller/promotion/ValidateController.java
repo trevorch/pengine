@@ -119,7 +119,7 @@ public class ValidateController extends Base {
      *             "start": 1561651200000
      *         },
      *         "promotionType": "discount",
-     *         "reducedPrice": 2627.94, // 参与活动的总价格减去优惠后的价格
+     *         "afterPrice": 2627.94, // 参与活动的总价格减去优惠后的价格
      *         "saving": 5346.96,
      *         "savingPercent": 35.3
      *     },

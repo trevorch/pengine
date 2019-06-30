@@ -17,7 +17,7 @@ public class ValidateResult<T> implements Serializable {
     // 参与活动的总价格
     private BigDecimal commonPrice;
     // 参与活动的总价格减去优惠后的价格
-    private BigDecimal reducedPrice;
+    private BigDecimal afterPrice;
     // 不参与活动的总价格
     private BigDecimal extraPrice;
     private Promotion promotion;

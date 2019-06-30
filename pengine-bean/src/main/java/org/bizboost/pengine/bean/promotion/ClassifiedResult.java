@@ -6,7 +6,13 @@ import org.bizboost.pengine.bean.trade.Item;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author ：cdm
+ * @date ：Created in 2019/6/28 22:55
+ * @description：
+ * @modified By：
+ * @version: 0.1.0$
+ */
 @Data
 public class ClassifiedResult {
     private List<PromotionItem> lack=new ArrayList<>();

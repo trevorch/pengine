@@ -20,7 +20,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-
+/**
+ * @author ：cdm
+ * @date ：Created in 2019/6/28 22:55
+ * @description：
+ * @modified By：
+ * @version: 0.1.0$
+ */
 @Service
 public class PromotionCacheServiceImpl implements PromotionCacheService {
     private static final Logger log = LoggerFactory.getLogger(PromotionCacheServiceImpl.class);

@@ -6,7 +6,13 @@ import org.bizboost.pengine.bean.Clone;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-
+/**
+ * @author ：cdm
+ * @date ：Created in 2019/6/28 22:55
+ * @description：
+ * @modified By：
+ * @version: 0.1.0$
+ */
 @Data
 public class Order extends Clone<Order> implements Serializable {
     private String no;

@@ -11,7 +11,13 @@ import org.bizboost.pengine.bean.promotion.VirtualProduct;
 import org.bizboost.pengine.bean.trade.Order;
 
 import java.util.List;
-
+/**
+ * @author ：cdm
+ * @date ：Created in 2019/6/28 22:55
+ * @description：
+ * @modified By：
+ * @version: 0.1.0$
+ */
 public interface PromotionService {
     ValidateResult bestResult(Order order, List<Promotion> promotions);
     ValidateResult validate(Order order, Promotion promotion) throws PromotionInvalidException, IllegalActionFormat, IllegalRuleFormat;

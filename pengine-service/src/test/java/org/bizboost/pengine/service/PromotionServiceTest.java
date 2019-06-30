@@ -22,7 +22,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author ：cdm
+ * @date ：Created in 2019/6/28 22:55
+ * @description：
+ * @modified By：
+ * @version: 0.1.0$
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PromotionServiceTest {

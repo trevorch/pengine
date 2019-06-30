@@ -14,7 +14,13 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.File;
 import java.io.IOException;
-
+/**
+ * @author ：cdm
+ * @date ：Created in 2019/6/28 22:55
+ * @description：
+ * @modified By：
+ * @version: 0.1.0$
+ */
 public class ScriptEngineTest {
 	private static final Logger log = LoggerFactory.getLogger(ScriptEngineTest.class);
 	private final static ScriptEngineManager manager = new ScriptEngineManager();

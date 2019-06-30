@@ -8,7 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static org.bizboost.pengine.bean.vo.JsonResp.build;
-
+/**
+ * @author ：cdm
+ * @date ：Created in 2019/6/28 22:55
+ * @description：
+ * @modified By：
+ * @version: 0.1.0$
+ */
 @CrossOrigin
 @RestController
 @RequestMapping("/promotion")

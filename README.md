@@ -79,10 +79,18 @@ else {
     $.ajax(ajaxRequest);
 }
 
-
-
 ```
-#### 在注释中使用RequestBody作为参数名
+#### 2. 修改模板文件
+C:\Users\Trevor\AppData\Roaming\npm\node_modules\apidoc\template\index.html<br>
+把227行:
+```
+<input id="sample-request-param-field-{{field}}" type="text" placeholder="{{field}}" class="form-control sample-request-param" data-sample-request-param-name="{{field}}" data-sample-request-param-group="sample-request-param-{{@../index}}" {{#if optional}}data-sample-request-param-optional="true"{{/if}}>
+```
+修改为:
+```
+<textarea id="sample-request-param-field-{{field}}"  placeholder="{{field}}" class="form-control sample-request-param" data-sample-request-param-name="{{field}}" data-sample-request-param-group="sample-request-param-{{@../index}}" {{#if optional}}data-sample-request-param-optional="true"{{/if}}/>
+```
+#### 3. 在注释中使用RequestBody作为参数名
 ```
     /**
      * @api {post} /promotion/create 创建促销
@@ -92,6 +100,7 @@ else {
      *
      * @apiParam {json} RequestBody
 ```
+
 
 ## 解决apidoc访问不了后台的问题
 在Controller上使用注解@CrossOrigin

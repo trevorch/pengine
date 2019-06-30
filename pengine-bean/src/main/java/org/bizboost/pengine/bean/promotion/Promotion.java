@@ -34,12 +34,14 @@ public class Promotion extends Clone<Promotion> implements Serializable {
     private Map<String, PromotionItem> map;
     private String action;
 
-    public void validate() throws PromotionInvalidException {
-        try {
-            Rule rule = PromotionTool.convertToRule(condition);
-            this.rule=rule;
-        } catch (IllegalRuleFormat e) {
-            throw new PromotionInvalidException(e.getMessage());
+    public void validate(boolean verifyRule) throws PromotionInvalidException {
+        if(verifyRule){
+            try {
+                Rule rule = PromotionTool.convertToRule(condition);
+                this.rule=rule;
+            } catch (IllegalRuleFormat e) {
+                throw new PromotionInvalidException(e.getMessage());
+            }
         }
         if (start.getTime()>close.getTime()) throw new PromotionInvalidException("活动开始时间大于结束时间");
         long currentTime = System.currentTimeMillis();
@@ -55,7 +57,7 @@ public class Promotion extends Clone<Promotion> implements Serializable {
      */
     public ClassifiedResult validate(Order order) throws PromotionInvalidException {
         Thread T = Thread.currentThread();
-        validate();
+        validate(false);
         ClassifiedResult classifiedResult = new ClassifiedResult();
         Set<String> orderItemIdSet = new HashSet<>();
         order.getItems().forEach(item -> orderItemIdSet.add(item.getId()));

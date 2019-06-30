@@ -65,7 +65,7 @@ public class PromotionCacheServiceImpl implements PromotionCacheService {
                     String content = FileTool.getContent(file);
                     Promotion promotion = PromotionUtil.getPromotion(content);
                     try {
-                        promotion.validate();
+                        promotion.validate(true);
                         promotions.add(promotion);
                     } catch (PromotionInvalidException e) {
                         log.error("MethodName[{}()],LineNumber[{}],ErrorMessage[{}]", T.getStackTrace()[1].getMethodName(),T.getStackTrace()[1].getLineNumber()-3,e.getMessage());
@@ -161,7 +161,7 @@ public class PromotionCacheServiceImpl implements PromotionCacheService {
         Thread T = Thread.currentThread();
         PROMOTIONID_PROMOTION_MAP.forEach((promId,prom)->{
             try {
-                prom.validate();
+                prom.validate(false);
             } catch (PromotionInvalidException e) {
                 log.info("PromId[{}],Name[{}],Message[{}]",prom.getId(),prom.getName(),e.getMessage());
                 PROMOTIONID_PROMOTION_MAP.remove(promId);
@@ -172,7 +172,7 @@ public class PromotionCacheServiceImpl implements PromotionCacheService {
             List<Promotion> invalid = new ArrayList<>();
             proms.forEach(prom->{
                 try {
-                    prom.validate();
+                    prom.validate(false);
                 } catch (PromotionInvalidException e) {
                     log.info("PromId[{}],Name[{}],Message[{}]",prom.getId(),prom.getName(),e.getMessage());
                     invalid.add(prom);

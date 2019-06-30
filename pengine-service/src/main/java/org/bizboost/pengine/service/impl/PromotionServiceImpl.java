@@ -261,7 +261,7 @@ public class PromotionServiceImpl implements PromotionService {
         Promotion promotion = promotionCacheService.getByPromotionId(promotionId);
         if(promotion==null) throw new PromotionInvalidException("促销[promotionId="+promotionId+"]不存在");
 
-        promotion.validate();
+        promotion.validate(false);
 
         VirtualProduct product = new VirtualProduct();
         try {
@@ -283,7 +283,7 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public Promotion create(Promotion promotion) throws PromotionInvalidException {
         Thread T = Thread.currentThread();
-        promotion.validate();
+        promotion.validate(true);
         try {
             promotionCacheService.create(promotion.deepClone());
         } catch (IOException|ClassNotFoundException e) {

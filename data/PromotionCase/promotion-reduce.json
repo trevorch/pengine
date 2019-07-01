@@ -2,7 +2,7 @@
   "id": "RED001",
   "name": "满1000减100",
   "desc": "满1000减100",
-  "sequence": 3,
+  "sequence": 6,
   "start": "2019-06-28 00:00:00",
   "close": "2019-10-26 00:00:00",
   "condition": "false (c1*p1+c2*p2+c3*p3) >= 1000",

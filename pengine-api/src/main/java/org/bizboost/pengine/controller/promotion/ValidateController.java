@@ -64,23 +64,18 @@ public class ValidateController extends Base {
      * {
      *     "code": "Success",
      *     "msg": {
-     *         "commonPrice": 7974.9, // 参与活动的总价格
-     *         "extraPrice": 7190, // 不参与活动的总价格
-     *         "finalPrice": 9817.94, // 订单最终总价格
+     *         "afterPrice": 2627.94,
+     *         "commonPrice": 7974.9,
+     *         "extraPrice": 0,
+     *         "finalPrice": 2627.94,
      *         "gifts": [],
-     *         "msg": "order.promotion.valid",
+     *         "msg": "订单[98238179849],总价[7974.9]=非活动[0]+活动[7974.9],活动部分满足[满1000打6折],最终价[2627.94]",
      *         "ok": true,
      *         "order": {
      *             "items": [
      *                 {
      *                     "count": 100,
      *                     "id": "8139349",
-     *                     "name": "伊利金典有机纯牛奶",
-     *                     "price": 71.9
-     *                 },
-     *                 {
-     *                     "count": 100,
-     *                     "id": "81393490",
      *                     "name": "伊利金典有机纯牛奶",
      *                     "price": 71.9
      *                 },
@@ -98,11 +93,12 @@ public class ValidateController extends Base {
      *                 }
      *             ],
      *             "no": "98238179849",
-     *             "totalPrice": 15164.9
+     *             "totalPrice": 7974.9
      *         },
      *         "promotion": {
      *             "action": "discount ((c1*p1*0.5)+c2*p2+c3*p3)*0.6",
      *             "close": 1572019200000,
+     *             "condition": "false (c1>=2)&&(c1*p1+c2*p2+c3*p3) >= 1000",
      *             "desc": "鲁花花生油满2瓶打5折且总价满1000打6折",
      *             "id": "DIS002",
      *             "map": {
@@ -120,14 +116,16 @@ public class ValidateController extends Base {
      *                 }
      *             },
      *             "name": "满1000打6折",
-     *             "rule": "(c1>=2)&&(c1*p1+c2*p2+c3*p3) >= 1000",
-     *             "sequence": 2,
+     *             "rule": {
+     *                 "exactMatch": false,
+     *                 "expression": "(c1>=2)&&(c1*p1+c2*p2+c3*p3)>=1000"
+     *             },
+     *             "sequence": 3,
      *             "start": 1561651200000
      *         },
      *         "promotionType": "discount",
-     *         "afterPrice": 2627.94, // 参与活动的总价格减去优惠后的价格
      *         "saving": 5346.96,
-     *         "savingPercent": 35.3
+     *         "savingPercent": 67
      *     },
      *     "ok": true
      * }

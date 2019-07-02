@@ -3,5 +3,4 @@ dependencies {
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
 
     compile project(':pengine-core')
-	compile project(':pengine-bean')
 }

@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
 import java.util.Locale;
 /**
  * @author ：cdm
@@ -43,10 +42,5 @@ public class I18nServiceTest {
         LocaleContextHolder.setLocale(Locale.CHINESE);
         msg = i18nService.get("order.promotion.valid");
         Assert.assertTrue(msg.contains("订单"));
-
-        String path = I18nServiceTest.class.getClassLoader().getResource("PromotionCase").getPath();
-        File file = new File(path);
-        File [] files = file.listFiles();
-        log.info("{}",path);
     }
 }

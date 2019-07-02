@@ -28,7 +28,7 @@ public class PromotionCacheServiceTest {
 
     @Test
     public void test() {
-        List<Promotion> promotion = promotionCacheService.getByProductId("1D45497B1D9749A6AD9E36D2E763490E");
+        List<Promotion> promotion = promotionCacheService.getByProductId("8139349");
         Assert.assertTrue(promotion.size()>0);
     }
 

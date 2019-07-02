@@ -46,7 +46,7 @@ public class PromotionServiceImpl implements PromotionService {
     @Autowired
     private PromotionCacheService promotionCacheService;
 
-    class PromotionActionResult{
+    static class PromotionActionResult{
         PromotionTypeEnum promotionType;
         String result;
     }

@@ -3,7 +3,7 @@ spring:
     basename: i18n/messages
 
 promotion:
-  file-dir: D:\Workspace\Java\pengine\data\PromotionCase
+  file-dir: D:\Workspace\pengine\data\PromotionCase
   file-prefix: promotion
   file-suffix: .json
 

@@ -1,9 +1,13 @@
-
+group = 'org.bizboost'
+version = '0.0.1-SNAPSHOT'
 subprojects {
 
+	// 设置编译器使用的编码
+	tasks.withType(JavaCompile) {
+		options.encoding = "UTF-8"
+	}
 
 	apply plugin: 'java'
-	apply plugin: 'idea'
 	group = 'org.bizboost'
 	version = '0.0.1-SNAPSHOT'
 	sourceCompatibility = '1.8'
@@ -12,10 +16,8 @@ subprojects {
 		compileOnly {
 			extendsFrom annotationProcessor
 		}
-
-
 	}
-	
+
 	repositories {
 		maven {
 			url 'http://maven.aliyun.com/nexus/content/groups/public/'
@@ -23,10 +25,14 @@ subprojects {
 		mavenCentral()
 	}
 	dependencies {
-		compileOnly 'org.projectlombok:lombok'
-		annotationProcessor 'org.projectlombok:lombok'
+
+
+		compileOnly 'org.projectlombok:lombok:1.18.8'
+		annotationProcessor 'org.projectlombok:lombok:1.18.8'
+
 		compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
 		compile group: 'com.alibaba', name: 'fastjson', version: '1.2.58'
 		compile group: 'commons-io', name: 'commons-io', version: '2.6'
+		compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 	}
 }

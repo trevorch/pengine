@@ -1,10 +1,20 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
 }
 apply plugin: 'io.spring.dependency-management'
-
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+	compile.exclude module: "spring-boot-starter-tomcat"
+}
 dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    developmentOnly "org.springframework.boot:spring-boot-devtools:$springBootVersion"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+    implementation "org.springframework.boot:spring-boot-starter-jetty:$springBootVersion"
+
 	compile project(':pengine-service')
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }

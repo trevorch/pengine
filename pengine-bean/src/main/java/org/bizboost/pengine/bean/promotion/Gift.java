@@ -1,7 +1,7 @@
 package org.bizboost.pengine.bean.promotion;
 
-import com.sun.deploy.util.StringUtils;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.bizboost.pengine.bean.Clone;
 
 import java.io.Serializable;
@@ -23,7 +23,7 @@ public class Gift extends Clone<Gift> implements Serializable {
         init(item);
     }
     public void init(String item){
-        item= StringUtils.trimWhitespace(item);
+        item= StringUtils.trim(item);
         String[] parts = item.split(":");
         this.id=parts[0];
         this.count=1;

@@ -22,9 +22,9 @@ define({ "api": [
     "type": "",
     "url": "",
     "version": "0.0.0",
-    "filename": "./doc/main.js",
-    "group": "D__Workspace_Java_pengine_doc_main_js",
-    "groupTitle": "D__Workspace_Java_pengine_doc_main_js",
+    "filename": "./docs/main.js",
+    "group": "D__Workspace_Java_pengine_docs_main_js",
+    "groupTitle": "D__Workspace_Java_pengine_docs_main_js",
     "name": ""
   },
   {
@@ -63,7 +63,7 @@ define({ "api": [
     "version": "0.2.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/best"
+        "url": "http://120.76.101.151:8080/promotion/best"
       }
     ],
     "name": "bestResult",
@@ -116,7 +116,7 @@ define({ "api": [
     "version": "0.1.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/best"
+        "url": "http://120.76.101.151:8080/promotion/best"
       }
     ],
     "name": "bestResult",
@@ -161,7 +161,7 @@ define({ "api": [
     "version": "0.2.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/create"
+        "url": "http://120.76.101.151:8080/promotion/create"
       }
     ],
     "name": "create",
@@ -205,7 +205,7 @@ define({ "api": [
     "version": "0.1.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/create"
+        "url": "http://120.76.101.151:8080/promotion/create"
       }
     ],
     "name": "create",
@@ -250,7 +250,7 @@ define({ "api": [
     "version": "0.2.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/get-by-prod/:productId"
+        "url": "http://120.76.101.151:8080/promotion/get-by-prod/:productId"
       }
     ],
     "name": "get_by_prod",
@@ -297,7 +297,7 @@ define({ "api": [
     "version": "0.2.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/list"
+        "url": "http://120.76.101.151:8080/promotion/list"
       }
     ],
     "name": "list",
@@ -330,7 +330,7 @@ define({ "api": [
     "version": "0.1.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/list"
+        "url": "http://120.76.101.151:8080/promotion/list"
       }
     ],
     "name": "list",
@@ -364,7 +364,7 @@ define({ "api": [
     "version": "0.2.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/list-by-prod/:productId"
+        "url": "http://120.76.101.151:8080/promotion/list-by-prod/:productId"
       }
     ],
     "name": "list_by_prod",
@@ -402,7 +402,7 @@ define({ "api": [
     "version": "0.2.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/validate"
+        "url": "http://120.76.101.151:8080/promotion/validate"
       }
     ],
     "name": "validate",
@@ -447,7 +447,7 @@ define({ "api": [
     "version": "0.2.0",
     "sampleRequest": [
       {
-        "url": "http://localhost:8888/promotion/virtual/:promotionId"
+        "url": "http://120.76.101.151:8080/promotion/virtual/:promotionId"
       }
     ],
     "name": "virtualProduct",
